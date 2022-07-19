@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+import React from 'react';
+
 export interface IPokemon {
   id: number;
   image: string;
@@ -38,6 +41,6 @@ export interface IInitialState {
   setError: (newState: string | null) => void;
 }
 
-export type ChildrenProps = {
+export type IChildrenProps = {
   children: React.ReactNode;
 };
