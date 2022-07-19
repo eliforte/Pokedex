@@ -1,4 +1,4 @@
-export interface Pokemon {
+export interface IPokemon {
   id: number;
   image: string;
   name: string;
@@ -17,7 +17,7 @@ export interface Pokemon {
   evolutions: string[];
 }
 
-export interface AllPokemon {
+export interface IAllPokemon {
   count: number;
   next: string;
   previous: string | undefined;
@@ -26,3 +26,18 @@ export interface AllPokemon {
     url: string;
   }[];
 }
+
+export interface IInitialState {
+  pokemonList: IAllPokemon;
+  setPokemonList: (newState: IAllPokemon) => void;
+  pokemon: IPokemon;
+  setPokemon: (newState: IPokemon) => void;
+  isLoading: boolean;
+  setIsLoading: (newState: boolean) => void;
+  error: string | null;
+  setError: (newState: string | null) => void;
+}
+
+export type ChildrenProps = {
+  children: React.ReactNode;
+};
