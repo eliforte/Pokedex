@@ -4,3 +4,6 @@ node_modules/
 *.env
 tests/
 coverage/
+react-app-env.d.ts
+serviceWorker.ts
+setupTests.ts

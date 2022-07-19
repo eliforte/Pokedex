@@ -1,17 +1,11 @@
 {
     "env": {
         "browser": true,
-        "es2021": true,
-        "node": true,
-        "jest": true
+        "es2021": true
     },
     "extends": [
-        "eslint:recommended",
-        "airbnb",
-        "react",
         "plugin:react/recommended",
-        "plugin:react-hooks/recommended",
-        "plugin:@typescript-eslint/recommended"
+        "airbnb"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -23,18 +17,27 @@
     },
     "plugins": [
         "react",
-        "react-hooks",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "import"
     ],
     "settings": {
+        "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "import/parsers": {
+          "@typescript-eslint/parser": [".ts", ".tsx"]
+        },
         "import/resolver": {
-            "typescript": {}
+          "typescript": {
+            "directory": "./tsconfig.json"
+          },
+          "node": {
+            "extensions": [".js", ".jsx", ".ts", ".tsx"]
+          }
         }
     },
     "rules": {
         "react/jsx-uses-react": "error",   
         "react/jsx-uses-vars": "error",
-        "import/no-unresolved": "error",
+        "import/no-unresolved": "off",
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": ["error"],
         "react/jsx-filename-extension": [ "warn", {"extensions": [".tsx"]} ],
@@ -42,9 +45,13 @@
             "error",
             "ignorePackages",
             {
+                "js": "never",
+                "jsx": "never",
                 "ts": "never",
                 "tsx": "never"
             }
-        ]
+        ],
+        "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
+        "no-console": "off"
     }
 }
