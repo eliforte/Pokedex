@@ -27,7 +27,13 @@ export interface IAllPokemon {
   results: {
     name: string;
     url: string;
+    image: string;
   }[];
+}
+
+export interface IResults {
+  name: string;
+  url: string;
 }
 
 export interface IInitialState {
