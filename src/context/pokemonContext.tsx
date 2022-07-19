@@ -1,10 +1,17 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/jsx-no-constructed-context-values */
 import React, {
   createContext, useState, useEffect,
 } from 'react';
 import axios, { AxiosError } from 'axios';
 import {
-  IPokemon, IAllPokemon, IInitialState, IChildrenProps, IResults,
+  IPokemon,
+  IAllPokemon,
+  IInitialState,
+  IChildrenProps,
+  IResults,
+  IPokemonStats,
+  IDescription,
 } from './interfaces';
 
 const api = axios.create({
@@ -18,8 +25,8 @@ const initialState = {
     previous: '',
     results: [{
       name: '',
-      url: '',
       image: '',
+      type: '',
     }],
   },
   setPokemonList: () => {},
@@ -56,10 +63,55 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(initialState.isLoading);
   const [error, setError] = useState<string | null>(initialState.error);
 
-  const getPokemonImage = async (url: string) => {
-    const { data: { sprites } } = await api.get(url);
+  const searchPokemon = async (text: string) => {
+    const urlForIdOrName = 'https://pokeapi.co/api/v2/pokemon/';
+    const urlForRequest = text.includes('https') ? text : `${urlForIdOrName}${text}`;
+    const { data: { sprites, types, name } } = await api.get(urlForRequest);
+    const type = types[0].type.name;
     const image = sprites.other['official-artwork'].front_default;
-    return image;
+    return { type, image, name };
+  };
+
+  const getPokemonDetails = async (nameOrId: string) => {
+    setIsLoading(true);
+    try {
+      const {
+        data: {
+          id,
+          name,
+          sprites,
+          types,
+          stats,
+          height,
+          weight,
+          abilities,
+        },
+      } = await api.get(`/pokemon/${nameOrId}`);
+      const { data: { flavor_text_entries } } = await api.get(`/pokemon-species/${nameOrId}`);
+      const allStats = stats.map(({ stat, base_stat }: IPokemonStats) => {
+        const result = { [stat.name]: base_stat };
+        return result;
+      });
+
+      setPokemon({
+        id,
+        image: sprites.other['official-artwork'].front_default,
+        name,
+        type: types[0].type.name,
+        height,
+        weight,
+        description: flavor_text_entries[5].flavor_text,
+        abilities: abilities[0].ability.name,
+        ...allStats,
+      });
+      setIsLoading(false);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        setError(err.message);
+        setIsLoading(false);
+      }
+      setIsLoading(false);
+    }
   };
 
   const getPokemons = async () => {
@@ -67,9 +119,9 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
     try {
       const { data } = await api.get('/pokemon');
       const thumbnails = await Promise.all(
-        data.results.map((item: IResults) => {
-          const newResult = getPokemonImage(item.url)
-            .then((image) => ({ ...item, image }));
+        data.results.map(({ url }: IResults) => {
+          const newResult = searchPokemon(url)
+            .then((image) => ({ ...image }));
           return newResult;
         }),
       );
@@ -81,7 +133,6 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
       }
       setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   useEffect(() => {

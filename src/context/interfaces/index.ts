@@ -20,15 +20,32 @@ export interface IPokemon {
   evolutions: string[];
 }
 
+export interface IPokemonStats {
+  base_stat: number;
+  effort: number;
+  stat: {
+    name: string;
+    url: string;
+  };
+}
+
 export interface IAllPokemon {
   count: number;
   next: string;
   previous: string | undefined;
   results: {
     name: string;
-    url: string;
     image: string;
+    type: string;
   }[];
+}
+
+export interface IDescription {
+  flavor_text: string;
+  language: {
+    name: string;
+    url: string;
+  };
 }
 
 export interface IResults {
