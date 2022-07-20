@@ -9,6 +9,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <Stack
+      display={['none', 'none', 'none', 'flex', 'flex']}
       align="start"
       justifyContent="space-between"
       h="100vh"
@@ -16,17 +17,42 @@ const Sidebar: React.FC = () => {
       position="fixed"
     >
       <WrapItem m="16px">
-        <Image src="pokebolamenu.svg" alt="pokebolamenu" />
+        <Image
+          src="pokebolamenu.svg"
+          alt="pokebolamenu"
+          h={{ base: '32px', md: '40px' }}
+          w={{ base: '32px', md: '40px' }}
+        />
       </WrapItem>
-      <Wrap spacing={2} align="start">
+      <Wrap spacing={3} align="start">
         <WrapItem>
-          <Button ml="8px" type="button" h="48px" w="48px">
-            <Image src="home.svg" alt="home" />
+          <Button
+            ml="8px"
+            type="button"
+            h={{ base: '48px', sm: '48px' }}
+            w={{ base: '48px', sm: '48px' }}
+          >
+            <Image
+              w={{ base: '48px', sm: '40px' }}
+              h={{ base: '49px', sm: '40px' }}
+              src="home.svg"
+              alt="home"
+            />
           </Button>
         </WrapItem>
         <WrapItem>
-          <Button ml="8px" type="button" h="48px" w="48px">
-            <Image src="pokebolaempty.svg" alt="pokebolaempty" />
+          <Button
+            ml="8px"
+            type="button"
+            h={{ base: '48px', sm: '48px' }}
+            w={{ base: '48px', sm: '48px' }}
+          >
+            <Image
+              w={{ base: '48px', sm: '40px' }}
+              h={{ base: '49px', sm: '40px' }}
+              src="pokebolaempty.svg"
+              alt="pokebolaempty"
+            />
           </Button>
         </WrapItem>
       </Wrap>
