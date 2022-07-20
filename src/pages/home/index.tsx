@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { PokemonContext } from '../../context/pokemonContext';
 import Sidebar from '../../components/sidebar';
+import DrawerMenu from '../../components/drawer';
 
 const Home: React.FC = () => {
   const { pokemonList } = React.useContext(PokemonContext);
@@ -8,6 +9,7 @@ const Home: React.FC = () => {
   return (
     <div>
       <Sidebar />
+      <DrawerMenu />
       {
         pokemonList.results.map((item) => (
           <>
