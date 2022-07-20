@@ -6,7 +6,7 @@ import {
 } from '@chakra-ui/react';
 import Home from './pages/home';
 
-const App = () => (
+const App: React.FC = () => (
   <BrowserRouter>
     <ChakraProvider theme={theme}>
       <Routes>
