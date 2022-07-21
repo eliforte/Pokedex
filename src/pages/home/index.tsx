@@ -56,16 +56,16 @@ const Home: React.FC = () => {
           <Search />
         </GridItem>
         {
-      pokemonList.results.map((pokemon, index) => (
-        <GridItem
-          key={`${newID}${pokemon.name}`}
-          justifyItems="center"
-          w={['100%', '100%', '100%', '100%', '100%']}
-        >
-          <Card pokemon={pokemon} index={index} />
-        </GridItem>
-      ))
-    }
+          pokemonList.results.map((pokemon) => (
+            <GridItem
+              key={`${newID}${pokemon.name}`}
+              justifyItems="center"
+              w={['100%', '100%', '100%', '100%', '100%']}
+            >
+              <Card pokemon={pokemon} />
+            </GridItem>
+          ))
+        }
       </Grid>
     </Flex>
 
