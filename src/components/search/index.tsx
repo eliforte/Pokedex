@@ -75,8 +75,6 @@ const Search = () => {
       spacing={4}
       display={['flex', 'flex', 'flex', 'flex', 'flex']}
       flexDirection={['column', 'column', 'column', 'row', 'row']}
-      justifyContent="flex-start"
-      alignItems="flex-start"
     >
       <Heading
         mr="32px"

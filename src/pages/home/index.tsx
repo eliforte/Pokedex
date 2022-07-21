@@ -51,7 +51,7 @@ const Home: React.FC = () => {
         gridGap="16px"
         m={
           [
-            '30px 50px',
+            '30px 30px',
             '30px 100px',
             '50px 30px',
             '0 80px',
