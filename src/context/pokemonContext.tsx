@@ -26,6 +26,7 @@ const initialState = {
       name: '',
       image: '',
       type: '',
+      id: 0,
     }],
   },
   setPokemonList: () => {},
@@ -53,6 +54,10 @@ const initialState = {
   error: null,
   setError: () => {},
   searchPokemon: () => {},
+  getPokemonDetails: () => {},
+  search: '',
+  setSearch: () => {},
+  getPokemons: () => {},
 };
 
 export const PokemonContext = createContext<IInitialState>(initialState);
@@ -62,14 +67,25 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
   const [pokemon, setPokemon] = useState<IPokemon>(initialState.pokemon);
   const [isLoading, setIsLoading] = useState<boolean>(initialState.isLoading);
   const [error, setError] = useState<string | null>(initialState.error);
+  const [search, setSearch] = useState<string>(initialState.search);
 
-  const searchPokemon = async (search: string) => {
-    const urlForIdOrName = 'https://pokeapi.co/api/v2/pokemon/';
-    const urlForRequest = search.includes('https') ? search : `${urlForIdOrName}${search}`;
-    const { data: { sprites, types, name } } = await api.get(urlForRequest);
+  const searchPokemon = async (url: string) => {
+    const {
+      data: {
+        sprites,
+        types,
+        name,
+        id,
+      },
+    } = await api.get(url);
     const type = types[0].type.name;
     const image = sprites.other['official-artwork'].front_default;
-    return { type, image, name };
+    return {
+      type,
+      image,
+      name,
+      id,
+    };
   };
 
   const getPokemonDetails = async (nameOrId: string) => {
@@ -149,6 +165,10 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
     error,
     setError,
     searchPokemon,
+    getPokemonDetails,
+    search,
+    setSearch,
+    getPokemons,
   };
 
   return (
