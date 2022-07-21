@@ -67,7 +67,7 @@ export interface IInitialState {
   getPokemonDetails: (text: string) => void;
   search: string;
   setSearch: (newState: string) => void;
-  getPokemons: () => void;
+  getPokemons: (url: string | null) => void;
 }
 
 export type IChildrenProps = {
