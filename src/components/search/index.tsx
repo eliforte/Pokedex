@@ -27,7 +27,7 @@ const Search = () => {
     try {
       if (!search.length) {
         setIsLoading(true);
-        getPokemons();
+        getPokemons(null);
         setIsLoading(false);
       } else {
         const urlForSearch = `https://pokeapi.co/api/v2/pokemon/${search}`;
@@ -65,7 +65,7 @@ const Search = () => {
     e.preventDefault();
     if (!search.length && e.key === 'Backspace') {
       setIsLoading(true);
-      getPokemons();
+      getPokemons(null);
       setIsLoading(false);
     }
   };
