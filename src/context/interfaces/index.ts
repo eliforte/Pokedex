@@ -37,6 +37,7 @@ export interface IAllPokemon {
     name: string;
     image: string;
     type: string;
+    id: number;
   }[];
 }
 
@@ -63,6 +64,10 @@ export interface IInitialState {
   error: string | null;
   setError: (newState: string | null) => void;
   searchPokemon: (search: string) => void;
+  getPokemonDetails: (text: string) => void;
+  search: string;
+  setSearch: (newState: string) => void;
+  getPokemons: () => void;
 }
 
 export type IChildrenProps = {
