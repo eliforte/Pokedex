@@ -9,6 +9,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <Stack
+      bg="whiteAlpha.200"
       display={['none', 'none', 'none', 'flex', 'flex']}
       align="start"
       justifyContent="space-between"
