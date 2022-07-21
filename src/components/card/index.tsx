@@ -13,15 +13,25 @@ interface IPokemonProps {
     name: string;
     image: string;
     type: string;
+    id: number;
   },
-  index: number;
 }
 
 const Card: React.FC<IPokemonProps> = (props: IPokemonProps) => {
-  const { pokemon, index } = props;
-  const { name, image, type } = pokemon;
+  const { pokemon } = props;
+  const {
+    name,
+    image,
+    type,
+    id,
+  } = pokemon;
 
   const addLeadingZeros = (num: number, totalLength: number) => String(num).padStart(totalLength, '0');
+
+  const firstLetterToUpperCase = (str: string) => {
+    const newText = str ? str[0].toLocaleUpperCase() + str.slice(1) : '';
+    return newText;
+  };
 
   return (
     <Flex
@@ -36,9 +46,9 @@ const Card: React.FC<IPokemonProps> = (props: IPokemonProps) => {
       <Box m="0 16px">
         <Text color="white">
           #
-          {addLeadingZeros(index + 1, 3)}
+          {addLeadingZeros(id, 3)}
         </Text>
-        <Heading color="white" as="h3" size={['md', 'md', 'md', 'md', 'lg']}>{name[0].toLocaleUpperCase() + name.slice(1)}</Heading>
+        <Heading color="white" as="h3" size={['md', 'md', 'md', 'md', 'lg']}>{firstLetterToUpperCase(name)}</Heading>
         <Button bg="white" mt="24px">Capturar</Button>
       </Box>
       <Flex h="100%" alignItems="center" overflow="hidden">
