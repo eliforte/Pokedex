@@ -1,5 +1,6 @@
-/* eslint-disable camelcase */
 /* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable camelcase */
+
 import React, {
   createContext, useState, useEffect,
 } from 'react';
@@ -130,10 +131,11 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
     }
   };
 
-  const getPokemons = async () => {
+  const getPokemons = async (urlQuery: string | null) => {
     setIsLoading(true);
     try {
-      const { data } = await api.get('/pokemon');
+      const urlForResquest = urlQuery || 'https://pokeapi.co/api/v2/pokemon?limit=12';
+      const { data } = await api.get(urlForResquest);
       const thumbnails = await Promise.all(
         data.results.map(({ url }: IResults) => {
           const newResult = searchPokemon(url)
@@ -141,7 +143,10 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
           return newResult;
         }),
       );
-      setPokemonList({ ...data, results: thumbnails });
+      const pokemonsWithImages = pokemonList.results.length > 1
+        ? [...pokemonList.results, ...thumbnails] : thumbnails;
+      setPokemonList({ ...data, results: pokemonsWithImages });
+      setIsLoading(false);
     } catch (err) {
       if (err instanceof AxiosError) {
         setError(err.message);
@@ -152,7 +157,7 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
   };
 
   useEffect(() => {
-    getPokemons();
+    getPokemons(null);
   }, []);
 
   const globalState: IInitialState = {
