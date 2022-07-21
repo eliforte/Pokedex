@@ -11,12 +11,10 @@ if (!container) throw new Error('Failed to find the root element');
 const root = ReactDOM.createRoot(container);
 
 root.render(
-  <React.StrictMode>
-    <PokemonProvider>
-      <ColorModeScript />
-      <App />
-    </PokemonProvider>
-  </React.StrictMode>,
+  <PokemonProvider>
+    <ColorModeScript />
+    <App />
+  </PokemonProvider>,
 );
 
 // If you want your app to work offline and load faster, you can change
