@@ -11,7 +11,6 @@ import {
   IChildrenProps,
   IResults,
   IPokemonStats,
-  IDescription,
 } from './interfaces';
 
 const api = axios.create({
@@ -53,6 +52,7 @@ const initialState = {
   setIsLoading: () => {},
   error: null,
   setError: () => {},
+  searchPokemon: () => {},
 };
 
 export const PokemonContext = createContext<IInitialState>(initialState);
@@ -63,9 +63,9 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(initialState.isLoading);
   const [error, setError] = useState<string | null>(initialState.error);
 
-  const searchPokemon = async (text: string) => {
+  const searchPokemon = async (search: string) => {
     const urlForIdOrName = 'https://pokeapi.co/api/v2/pokemon/';
-    const urlForRequest = text.includes('https') ? text : `${urlForIdOrName}${text}`;
+    const urlForRequest = search.includes('https') ? search : `${urlForIdOrName}${search}`;
     const { data: { sprites, types, name } } = await api.get(urlForRequest);
     const type = types[0].type.name;
     const image = sprites.other['official-artwork'].front_default;
@@ -148,6 +148,7 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
     setIsLoading,
     error,
     setError,
+    searchPokemon,
   };
 
   return (

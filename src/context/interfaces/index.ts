@@ -62,6 +62,7 @@ export interface IInitialState {
   setIsLoading: (newState: boolean) => void;
   error: string | null;
   setError: (newState: string | null) => void;
+  searchPokemon: (search: string) => void;
 }
 
 export type IChildrenProps = {
