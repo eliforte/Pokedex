@@ -1,11 +1,9 @@
-/* eslint-disable no-unused-vars */
 import * as React from 'react';
 import {
   Box,
   Flex,
   Grid,
   GridItem,
-  Text,
 } from '@chakra-ui/react';
 import { PokemonContext } from '../../context/pokemonContext';
 import Sidebar from '../../components/sidebar';
@@ -14,8 +12,21 @@ import Search from '../../components/search';
 import Card from '../../components/card';
 
 const Home: React.FC = () => {
-  const { pokemonList } = React.useContext(PokemonContext);
+  const { pokemonList, isLoading, getPokemons } = React.useContext(PokemonContext);
   const newID = React.useId();
+
+  const handleScroll = (e: any) => {
+    if (
+      window.innerHeight + e.target.documentElement.scrollTop + 1
+      > e.target.documentElement.scrollHeight && !isLoading && pokemonList.next
+    ) {
+      getPokemons(pokemonList.next);
+    }
+  };
+
+  React.useEffect(() => {
+    window.addEventListener('scroll', (e: any) => handleScroll(e));
+  }, [pokemonList]);
 
   return (
     <Flex bg="gray.100" h="100vh" flexDirection="column">
