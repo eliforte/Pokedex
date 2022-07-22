@@ -10,9 +10,15 @@ import Sidebar from '../../components/sidebar';
 import DrawerMenu from '../../components/drawer';
 import Search from '../../components/search';
 import Card from '../../components/card';
+import EmptyList from '../../components/emptyList';
 
 const Home: React.FC = () => {
-  const { pokemonList, isLoading, getPokemons } = React.useContext(PokemonContext);
+  const {
+    pokemonList,
+    isLoading,
+    getPokemons,
+    error,
+  } = React.useContext(PokemonContext);
   const newID = React.useId();
 
   const handleScroll = (e: any) => {
@@ -67,7 +73,7 @@ const Home: React.FC = () => {
           <Search />
         </GridItem>
         {
-          pokemonList.results.map((pokemon) => (
+          !error ? pokemonList.results.map((pokemon) => (
             <GridItem
               key={`${newID}${pokemon.name}`}
               justifyItems="center"
@@ -75,7 +81,13 @@ const Home: React.FC = () => {
             >
               <Card pokemon={pokemon} />
             </GridItem>
-          ))
+          )) : (
+            <GridItem
+              colSpan={[2, 2, 3, 3, 3]}
+            >
+              <EmptyList />
+            </GridItem>
+          )
         }
       </Grid>
     </Flex>

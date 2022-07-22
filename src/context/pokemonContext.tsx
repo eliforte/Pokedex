@@ -52,7 +52,7 @@ const initialState = {
   setPokemon: () => {},
   isLoading: false,
   setIsLoading: () => {},
-  error: null,
+  error: '',
   setError: () => {},
   searchPokemon: () => {},
   getPokemonDetails: () => {},
