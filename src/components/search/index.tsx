@@ -5,7 +5,9 @@ import {
   Heading,
   InputGroup,
   Input,
+  Text,
   InputLeftElement,
+  Flex,
 } from '@chakra-ui/react';
 import axios, { AxiosError } from 'axios';
 import { SearchIcon } from '@chakra-ui/icons';
@@ -75,32 +77,41 @@ const Search = () => {
       spacing={4}
       display={['flex', 'flex', 'flex', 'flex', 'flex']}
       flexDirection={['column', 'column', 'column', 'row', 'row']}
+      justifyContent="space-between"
     >
-      <Heading
-        mr="32px"
-        mt="10px"
-        color="gray.800"
-      >
-        Pokédex
-      </Heading>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <InputGroup justifyContent="flex-start">
-          <InputLeftElement
-            pointerEvents="none"
-            fontSize="1.2em"
-            children={<SearchIcon color="gray.400" />}
-          />
-          <Input
-            placeholder="Buscar pokemon pelo nome..."
-            onChange={(e) => setSearch(e.target.value)}
-            value={search}
-            justifyContent="center"
-            w={['100%', '100%', '100%', 'md', 'md']}
-            bg="gray.100"
-            onKeyUp={(e) => onDeleteSearchText(e)}
-          />
-        </InputGroup>
+        <Flex alignItems="flex-end">
+          <Heading
+            mr="32px"
+            mt="10px"
+            color="gray.800"
+          >
+            Pokédex
+          </Heading>
+          <InputGroup justifyContent="flex-start">
+            <InputLeftElement
+              pointerEvents="none"
+              fontSize="1.2em"
+              children={<SearchIcon color="gray.400" />}
+            />
+            <Input
+              placeholder="Buscar pokemon pelo nome..."
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
+              justifyContent="center"
+              w={['100%', '100%', '100%', 'md', 'md']}
+              bg="gray.100"
+              onKeyUp={(e) => onDeleteSearchText(e)}
+            />
+          </InputGroup>
+        </Flex>
       </form>
+      <Text
+        fontWeight="500"
+        color="gray.500"
+      >
+        {`${pokemonList.results.length} de ${pokemonList.count}`}
+      </Text>
     </Stack>
   );
 };
