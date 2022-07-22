@@ -29,7 +29,7 @@ const Home: React.FC = () => {
   }, [pokemonList]);
 
   return (
-    <Flex bg="gray.100" h="100vh" flexDirection="column">
+    <Flex h="100vh" flexDirection="column">
       <Box>
         <Sidebar />
         <DrawerMenu />
@@ -54,7 +54,7 @@ const Home: React.FC = () => {
             '30px 30px',
             '30px 100px',
             '50px 30px',
-            '0 80px',
+            '25px 80px',
             '25px 200px',
           ]
         }
@@ -79,7 +79,6 @@ const Home: React.FC = () => {
         }
       </Grid>
     </Flex>
-
   );
 };
 
