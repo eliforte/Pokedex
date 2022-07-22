@@ -80,7 +80,13 @@ const PokedexPage: React.FC = () => {
                 <Card pokemon={pokemon} />
               </GridItem>
             ))
-            : <EmptyList />
+            : (
+              <GridItem
+                colSpan={[2, 2, 3, 3, 3]}
+              >
+                <EmptyList />
+              </GridItem>
+            )
         }
       </Grid>
     </Flex>
