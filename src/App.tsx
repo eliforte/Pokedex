@@ -4,6 +4,7 @@ import {
   ChakraProvider,
 } from '@chakra-ui/react';
 import Home from './pages/home';
+import Pokedex from './pages/pokedex';
 import theme from './styles/globalStyles';
 
 const App: React.FC = () => (
@@ -11,6 +12,7 @@ const App: React.FC = () => (
     <ChakraProvider theme={theme}>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/pokedex" element={<Pokedex />} />
       </Routes>
     </ChakraProvider>
   </BrowserRouter>
