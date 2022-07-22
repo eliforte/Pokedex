@@ -12,11 +12,13 @@ import {
   DrawerCloseButton,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import { HamburgerIcon } from '@chakra-ui/icons';
 
 const DrawerMenu: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef<HTMLButtonElement>(null);
+  const Navegate = useNavigate();
 
   return (
     <>
@@ -56,12 +58,12 @@ const DrawerMenu: React.FC = () => {
             </WrapItem>
             <Wrap spacing={2} align="start">
               <WrapItem>
-                <Button ml="8px" type="button" h="48px" w="48px">
+                <Button onClick={() => Navegate('/')} ml="8px" type="button" h="48px" w="48px">
                   <Image src="home.svg" alt="home" />
                 </Button>
               </WrapItem>
               <WrapItem>
-                <Button ml="8px" type="button" h="48px" w="48px">
+                <Button onClick={() => Navegate('/pokedex')} ml="8px" type="button" h="48px" w="48px">
                   <Image src="pokebolaempty.svg" alt="pokebolaempty" />
                 </Button>
               </WrapItem>
