@@ -143,7 +143,7 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
           return newResult;
         }),
       );
-      const pokemonsWithImages = pokemonList.results.length > 1
+      const pokemonsWithImages = pokemonList.results.length > 1 && search.length
         ? [...pokemonList.results, ...thumbnails] : thumbnails;
       setPokemonList({ ...data, results: pokemonsWithImages });
       setIsLoading(false);

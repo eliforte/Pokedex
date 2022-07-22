@@ -56,7 +56,6 @@ const Search = () => {
     } catch (err) {
       if (err instanceof AxiosError) {
         setError(err.message);
-
         setIsLoading(false);
       }
       setIsLoading(false);
