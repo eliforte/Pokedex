@@ -73,3 +73,20 @@ export interface IInitialState {
 export type IChildrenProps = {
   children: React.ReactNode;
 };
+
+export interface IOnePokemonOfList {
+  name: string;
+  type: string;
+  image: string;
+  id: number;
+}
+
+export interface IPokemonProps {
+  id: any;
+  pokemon: {
+    name: string;
+    image: string;
+    type: string;
+    id: number;
+  },
+}
