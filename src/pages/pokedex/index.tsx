@@ -10,15 +10,11 @@ import Sidebar from '../../components/sidebar';
 import DrawerMenu from '../../components/drawer';
 import Card from '../../components/card';
 import EmptyList from '../../components/emptyList';
+import { IOnePokemonOfList } from '../../interfaces';
 
 const PokedexPage: React.FC = () => {
   const newID = React.useId();
-  const [pokedex, setPokedex] = React.useState([{
-    name: '',
-    image: '',
-    type: '',
-    id: 0,
-  }]);
+  const [pokedex, setPokedex] = React.useState<IOnePokemonOfList[]>([]);
 
   const readSessionStorage = () => {
     const sessionStoragePokedex = sessionStorage.getItem('pokedex');
@@ -70,14 +66,14 @@ const PokedexPage: React.FC = () => {
           <Heading as="h1" size="xl">Pokemons capturados</Heading>
         </GridItem>
         {
-          pokedex[0].name !== ''
+          pokedex.length
             ? pokedex.map((pokemon) => (
               <GridItem
                 key={`${newID}${pokemon.name}`}
                 justifyItems="center"
                 w={['100%', '100%', '100%', '100%', '100%']}
               >
-                <Card pokemon={pokemon} />
+                <Card pokemon={pokemon} id={pokemon.id} />
               </GridItem>
             ))
             : (

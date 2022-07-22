@@ -32,6 +32,7 @@ const Home: React.FC = () => {
 
   React.useEffect(() => {
     window.addEventListener('scroll', (e: any) => handleScroll(e));
+    sessionStorage.setItem('pokedex', JSON.stringify([]));
   }, [pokemonList]);
 
   return (
@@ -79,7 +80,7 @@ const Home: React.FC = () => {
               justifyItems="center"
               w={['100%', '100%', '100%', '100%', '100%']}
             >
-              <Card pokemon={pokemon} />
+              <Card pokemon={pokemon} id={pokemon.id} />
             </GridItem>
           )) : (
             <GridItem
