@@ -2,22 +2,16 @@ import * as React from 'react';
 import {
   Image,
   Heading,
-  Button,
   Flex,
   Box,
   Text,
+  Button,
 } from '@chakra-ui/react';
-
-interface IPokemonProps {
-  pokemon: {
-    name: string;
-    image: string;
-    type: string;
-    id: number;
-  },
-}
+import { IPokemonProps } from '../../interfaces';
 
 const Card: React.FC<IPokemonProps> = (props: IPokemonProps) => {
+  const [textButton, setTextButton] = React.useState('Capturar');
+  const [catched, setCatched] = React.useState(false);
   const { pokemon } = props;
   const {
     name,
@@ -32,6 +26,50 @@ const Card: React.FC<IPokemonProps> = (props: IPokemonProps) => {
     const newText = str ? str[0].toLocaleUpperCase() + str.slice(1) : '';
     return newText;
   };
+
+  const catchPokemon = () => {
+    const sessionStoragePokedex = sessionStorage.getItem('pokedex');
+    if (sessionStoragePokedex) {
+      const pokedex = JSON.parse(sessionStoragePokedex);
+      pokedex.push(pokemon);
+      sessionStorage.setItem('pokedex', JSON.stringify(pokedex));
+    }
+  };
+
+  const releasePokemon = () => {
+    const sessionStoragePokedex = sessionStorage.getItem('pokedex');
+    if (sessionStoragePokedex) {
+      const parsedPokedex = JSON.parse(sessionStoragePokedex);
+      const newPokedex = parsedPokedex.filter((pok: any) => pok.id !== id);
+      sessionStorage.setItem('pokedex', JSON.stringify(newPokedex));
+    }
+  };
+
+  const pokemonIsCatched = () => {
+    const sessionStoragePokedex = sessionStorage.getItem('pokedex');
+    if (sessionStoragePokedex) {
+      const parsedPokedex = JSON.parse(sessionStoragePokedex);
+      const isCatched = parsedPokedex.find((pok: any) => pok.id === id);
+      if (isCatched) {
+        setTextButton('Soltar');
+        setCatched(true);
+      }
+    }
+  };
+
+  const handleClick = () => {
+    if (catched) {
+      releasePokemon();
+      setTextButton('Capturar');
+    } else {
+      catchPokemon();
+      setTextButton('Soltar');
+    }
+  };
+
+  React.useEffect(() => {
+    pokemonIsCatched();
+  }, [pokemonIsCatched, catched]);
 
   return (
     <Flex
@@ -49,7 +87,7 @@ const Card: React.FC<IPokemonProps> = (props: IPokemonProps) => {
           {addLeadingZeros(id, 3)}
         </Text>
         <Heading color="white" as="h3" size={['md', 'md', 'md', 'md', 'lg']}>{firstLetterToUpperCase(name)}</Heading>
-        <Button bg="white" mt="24px">Capturar</Button>
+        <Button onClick={() => handleClick()} bg="white" mt="24px">{ textButton }</Button>
       </Box>
       <Flex h="100%" alignItems="center" overflow="hidden">
         <Image
