@@ -16,6 +16,7 @@ const EmptyList: React.FC = () => {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
+      mt="70px"
     >
       <Image
         src="emptyfolder.svg"
@@ -35,7 +36,7 @@ const EmptyList: React.FC = () => {
               <Link fontWeight="600" as={ReactLink} to="/" color="#3182CE"> clique aqui.</Link>
             </Text>
           )
-          : <Text mb="20px">Verifique se digitou corretamente</Text>
+          : <Text color="gray.400" mb="20px">Verifique se digitou corretamente</Text>
       }
     </Flex>
   );
