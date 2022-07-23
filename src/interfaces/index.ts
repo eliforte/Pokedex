@@ -61,11 +61,10 @@ export interface IInitialState {
   setIsLoading: (newState: boolean) => void;
   error: string | null;
   setError: (newState: string | null) => void;
-  searchPokemon: (search: string) => void;
   getPokemonDetails: (text: string | undefined) => void;
   search: string;
   setSearch: (newState: string) => void;
-  getPokemons: (url: string | null) => void;
+  firstRenderPokemons: () => void;
 }
 
 export type IChildrenProps = {
@@ -87,4 +86,11 @@ export interface IPokemonProps {
     type: string;
     id: number;
   },
+}
+
+export interface ISearchResults {
+  name: string;
+  type: string;
+  image: string;
+  id: number;
 }

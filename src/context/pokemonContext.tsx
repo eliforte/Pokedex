@@ -10,82 +10,23 @@ import {
   IAllPokemon,
   IInitialState,
   IChildrenProps,
-  IResults,
   IPokemonStats,
 } from '../interfaces';
+import InitialState from '../helpers/initalState';
+import usePokemonListWithImages from '../hooks/usePokemonListWithImages';
 
 const api = axios.create({
   baseURL: 'https://pokeapi.co/api/v2',
 });
 
-const initialState = {
-  pokemonList: {
-    count: 0,
-    next: '',
-    previous: '',
-    results: [{
-      name: '',
-      image: '',
-      type: '',
-      id: 0,
-    }],
-  },
-  setPokemonList: () => {},
-  pokemon: {
-    id: 0,
-    image: '',
-    name: '',
-    description: '',
-    type: '',
-    height: 0,
-    weight: 0,
-    abilities: '',
-    stats: [{
-      statName: '',
-      base_stat: 0,
-    }],
-    total: 0,
-    evolutions: [],
-  },
-  setPokemon: () => {},
-  isLoading: false,
-  setIsLoading: () => {},
-  error: '',
-  setError: () => {},
-  searchPokemon: () => {},
-  getPokemonDetails: () => {},
-  search: '',
-  setSearch: () => {},
-  getPokemons: () => {},
-};
-
-export const PokemonContext = createContext<IInitialState>(initialState);
+export const PokemonContext = createContext<IInitialState>(InitialState);
 
 export const PokemonProvider = ({ children }: IChildrenProps) => {
-  const [pokemonList, setPokemonList] = useState<IAllPokemon>(initialState.pokemonList);
-  const [pokemon, setPokemon] = useState<IPokemon>(initialState.pokemon);
-  const [isLoading, setIsLoading] = useState<boolean>(initialState.isLoading);
-  const [error, setError] = useState<string | null>(initialState.error);
-  const [search, setSearch] = useState<string>(initialState.search);
-
-  const searchPokemon = async (url: string) => {
-    const {
-      data: {
-        sprites,
-        types,
-        name,
-        id,
-      },
-    } = await api.get(url);
-    const type = types[0].type.name;
-    const image = sprites.other['official-artwork'].front_default;
-    return {
-      type,
-      image,
-      name,
-      id,
-    };
-  };
+  const [pokemonList, setPokemonList] = useState<IAllPokemon>(InitialState.pokemonList);
+  const [pokemon, setPokemon] = useState<IPokemon>(InitialState.pokemon);
+  const [isLoading, setIsLoading] = useState<boolean>(InitialState.isLoading);
+  const [error, setError] = useState<string | null>(InitialState.error);
+  const [search, setSearch] = useState<string>(InitialState.search);
 
   const getPokemonDetails = async (nameOrId: string | undefined) => {
     setIsLoading(true);
@@ -131,21 +72,13 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
     }
   };
 
-  const getPokemons = async (urlQuery: string | null) => {
+  const firstRenderPokemons = async () => {
     setIsLoading(true);
     try {
-      const urlForResquest = urlQuery || 'https://pokeapi.co/api/v2/pokemon?limit=12';
+      const urlForResquest = 'https://pokeapi.co/api/v2/pokemon?limit=12';
       const { data } = await api.get(urlForResquest);
-      const thumbnails = await Promise.all(
-        data.results.map(({ url }: IResults) => {
-          const newResult = searchPokemon(url)
-            .then((image) => ({ ...image }));
-          return newResult;
-        }),
-      );
-      const pokemonsWithImages = pokemonList.results.length > 1 && search.length
-        ? [...pokemonList.results, ...thumbnails] : thumbnails;
-      setPokemonList({ ...data, results: pokemonsWithImages });
+      const pokemonWithThumbnails = await usePokemonListWithImages(data.results);
+      setPokemonList({ ...data, results: pokemonWithThumbnails });
       setIsLoading(false);
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -157,7 +90,7 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
   };
 
   useEffect(() => {
-    getPokemons(null);
+    firstRenderPokemons();
   }, []);
 
   const globalState: IInitialState = {
@@ -169,11 +102,10 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
     setIsLoading,
     error,
     setError,
-    searchPokemon,
     getPokemonDetails,
     search,
     setSearch,
-    getPokemons,
+    firstRenderPokemons,
   };
 
   return (
