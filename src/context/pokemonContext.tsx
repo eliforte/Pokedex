@@ -40,12 +40,10 @@ const initialState = {
     height: 0,
     weight: 0,
     abilities: '',
-    hp: 0,
-    attack: 0,
-    defense: 0,
-    sp_atk: 0,
-    sp_def: 0,
-    speed: 0,
+    stats: [{
+      statName: '',
+      base_stat: 0,
+    }],
     total: 0,
     evolutions: [],
   },
@@ -89,7 +87,7 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
     };
   };
 
-  const getPokemonDetails = async (nameOrId: string) => {
+  const getPokemonDetails = async (nameOrId: string | undefined) => {
     setIsLoading(true);
     try {
       const {
@@ -106,7 +104,7 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
       } = await api.get(`/pokemon/${nameOrId}`);
       const { data: { flavor_text_entries } } = await api.get(`/pokemon-species/${nameOrId}`);
       const allStats = stats.map(({ stat, base_stat }: IPokemonStats) => {
-        const result = { [stat.name]: base_stat };
+        const result = { statName: stat.name, base_stat };
         return result;
       });
 
@@ -119,7 +117,9 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
         weight,
         description: flavor_text_entries[5].flavor_text,
         abilities: abilities[0].ability.name,
-        ...allStats,
+        stats: allStats,
+        evolutions: [],
+        total: allStats.reduce((acc: any, curr: any) => acc + curr.base_stat, 0),
       });
       setIsLoading(false);
     } catch (err) {

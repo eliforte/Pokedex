@@ -7,6 +7,7 @@ import {
   Text,
   Button,
 } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 import { IPokemonProps } from '../../interfaces';
 
 const Card: React.FC<IPokemonProps> = (props: IPokemonProps) => {
@@ -82,21 +83,29 @@ const Card: React.FC<IPokemonProps> = (props: IPokemonProps) => {
       overflow="hidden"
     >
       <Box m="0 16px">
-        <Text color="white">
-          #
-          {addLeadingZeros(id, 3)}
-        </Text>
-        <Heading color="white" as="h3" size={['md', 'md', 'md', 'md', 'lg']}>{firstLetterToUpperCase(name)}</Heading>
+        <Link to={`/${id}`}>
+          <Text color="white">
+            #
+            {addLeadingZeros(id, 3)}
+          </Text>
+          <Heading color="white" as="h3" size={['md', 'md', 'md', 'md', 'lg']}>
+            {firstLetterToUpperCase(name)}
+          </Heading>
+        </Link>
         <Button onClick={() => handleClick()} bg="white" mt="24px">{ textButton }</Button>
       </Box>
-      <Flex h="100%" alignItems="center" overflow="hidden">
-        <Image
-          position="absolute"
-          zIndex={1}
-          h={['100px', '100px', '115px', '130px', '150px']}
-          src={image}
-          alt={name}
-        />
+      <Flex w="100%" h="100%" alignItems="flex-start" overflow="hidden">
+        <Link to={`${id}`}>
+          <Image
+            mt="30px"
+            alignSelf="center"
+            position="absolute"
+            zIndex={1}
+            h={['100px', '100px', '115px', '130px', '150px']}
+            src={image}
+            alt={name}
+          />
+        </Link>
         <Image
           overflow="hidden"
           h="100%"

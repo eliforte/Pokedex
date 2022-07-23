@@ -5,6 +5,7 @@ import {
 } from '@chakra-ui/react';
 import Home from './pages/home';
 import Pokedex from './pages/pokedex';
+import Details from './pages/details';
 import theme from './styles/globalStyles';
 
 const App: React.FC = () => (
@@ -13,6 +14,7 @@ const App: React.FC = () => (
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/pokedex" element={<Pokedex />} />
+        <Route path="/:id" element={<Details />} />
       </Routes>
     </ChakraProvider>
   </BrowserRouter>

@@ -10,14 +10,12 @@ export interface IPokemon {
   height: number;
   weight: number;
   abilities: string;
-  hp: number;
-  attack: number;
-  defense: number;
-  sp_atk: number;
-  sp_def: number;
-  speed: number;
-  total: number;
+  stats: {
+    statName: string;
+    base_stat: number;
+  }[];
   evolutions: string[];
+  total: number;
 }
 
 export interface IPokemonStats {
@@ -64,7 +62,7 @@ export interface IInitialState {
   error: string | null;
   setError: (newState: string | null) => void;
   searchPokemon: (search: string) => void;
-  getPokemonDetails: (text: string) => void;
+  getPokemonDetails: (text: string | undefined) => void;
   search: string;
   setSearch: (newState: string) => void;
   getPokemons: (url: string | null) => void;
