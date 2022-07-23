@@ -21,7 +21,7 @@ const Search = () => {
     setIsLoading,
     search,
     setSearch,
-    getPokemons,
+    firstRenderPokemons,
   } = React.useContext(PokemonContext);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,7 +29,7 @@ const Search = () => {
     try {
       if (!search.length) {
         setIsLoading(true);
-        getPokemons(null);
+        firstRenderPokemons();
         setIsLoading(false);
       } else {
         const urlForSearch = `https://pokeapi.co/api/v2/pokemon/${search}`;
@@ -66,7 +66,7 @@ const Search = () => {
     e.preventDefault();
     if (!search.length && e.key === 'Backspace') {
       setIsLoading(true);
-      getPokemons(null);
+      firstRenderPokemons();
       setIsLoading(false);
     }
   };
