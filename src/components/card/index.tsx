@@ -94,18 +94,15 @@ const Card: React.FC<IPokemonProps> = (props: IPokemonProps) => {
         </Link>
         <Button onClick={() => handleClick()} bg="white" mt="24px">{ textButton }</Button>
       </Box>
-      <Flex w="100%" h="100%" alignItems="flex-start" overflow="hidden">
-        <Link to={`${id}`}>
-          <Image
-            mt="30px"
-            alignSelf="center"
-            position="absolute"
-            zIndex={1}
-            h={['100px', '100px', '115px', '130px', '150px']}
-            src={image}
-            alt={name}
-          />
-        </Link>
+      <Flex w="100%" h="100%" justifyContent="flex-end" alignItems="flex-start" overflow="hidden">
+        <Image
+          mt="30px"
+          position="absolute"
+          zIndex={1}
+          h={['100px', '100px', '115px', '130px', '150px']}
+          src={image}
+          alt={name}
+        />
         <Image
           overflow="hidden"
           h="100%"
