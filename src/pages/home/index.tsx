@@ -6,6 +6,7 @@ import {
   GridItem,
 } from '@chakra-ui/react';
 import { PokemonContext } from '../../context/pokemonContext';
+import useInfinitScroll from '../../hooks/useInfinitScroll';
 import Sidebar from '../../components/sidebar';
 import DrawerMenu from '../../components/drawer';
 import Search from '../../components/search';
@@ -16,17 +17,17 @@ const Home: React.FC = () => {
   const {
     pokemonList,
     isLoading,
-    getPokemons,
     error,
   } = React.useContext(PokemonContext);
   const newID = React.useId();
+  const infitiScroll = useInfinitScroll();
 
   const handleScroll = (e: any) => {
     if (
       window.innerHeight + e.target.documentElement.scrollTop + 1
       > e.target.documentElement.scrollHeight && !isLoading && pokemonList.next
     ) {
-      getPokemons(pokemonList.next);
+      infitiScroll();
     }
   };
 
