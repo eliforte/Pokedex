@@ -36,6 +36,8 @@ const InitialState = {
   search: '',
   setSearch: () => {},
   firstRenderPokemons: () => {},
+  pokedex: [],
+  setPokedex: () => {},
 };
 
 export default InitialState;

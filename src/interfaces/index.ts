@@ -65,6 +65,8 @@ export interface IInitialState {
   search: string;
   setSearch: (newState: string) => void;
   firstRenderPokemons: () => void;
+  pokedex: IOnePokemonOfList[];
+  setPokedex: (newState: IOnePokemonOfList[]) => void;
 }
 
 export type IChildrenProps = {

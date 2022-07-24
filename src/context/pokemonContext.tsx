@@ -11,6 +11,7 @@ import {
   IInitialState,
   IChildrenProps,
   IPokemonStats,
+  IOnePokemonOfList,
 } from '../interfaces';
 import InitialState from '../helpers/initalState';
 import usePokemonListWithImages from '../hooks/usePokemonListWithImages';
@@ -27,6 +28,7 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(InitialState.isLoading);
   const [error, setError] = useState<string | null>(InitialState.error);
   const [search, setSearch] = useState<string>(InitialState.search);
+  const [pokedex, setPokedex] = useState<IOnePokemonOfList[]>(InitialState.pokedex);
 
   const getPokemonDetails = async (nameOrId: string | undefined) => {
     setIsLoading(true);
@@ -106,6 +108,8 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
     search,
     setSearch,
     firstRenderPokemons,
+    pokedex,
+    setPokedex,
   };
 
   return (
