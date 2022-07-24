@@ -94,7 +94,7 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
   const firstRenderPokemons = async () => {
     setIsLoading(true);
     try {
-      const urlForResquest = 'https://pokeapi.co/api/v2/pokemon?limit=12';
+      const urlForResquest = 'https://pokeapi.co/api/v2/pokemon?limit=20';
       const { data } = await api.get(urlForResquest);
       const pokemonWithThumbnails = await usePokemonListWithImages(data.results);
       setPokemonList({ ...data, results: pokemonWithThumbnails });
