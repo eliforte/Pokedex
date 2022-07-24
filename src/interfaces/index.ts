@@ -14,7 +14,7 @@ export interface IPokemon {
     statName: string;
     base_stat: number;
   }[];
-  evolutions: string[];
+  evolutions: IOnePokemonOfList[];
   total: number;
 }
 

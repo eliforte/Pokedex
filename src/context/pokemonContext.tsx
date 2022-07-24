@@ -50,7 +50,24 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
         const result = { statName: stat.name, base_stat };
         return result;
       });
-
+      const { data: { chain } } = await api.get(`/evolution-chain/${id}`);
+      const pokemonEvolutionsWithoutImage = [
+        chain?.evolves_to[0]?.species,
+        chain?.evolves_to[0]?.evolves_to[0]?.species,
+      ];
+      const pokemonEvolutionsWithImage = await Promise.all(
+        pokemonEvolutionsWithoutImage.map(async (item) => {
+          const { data } = await api.get(`/pokemon/${item.name}`);
+          const type = data.types[0].type.name;
+          const image = data.sprites.other['official-artwork'].front_default;
+          return {
+            name: data.name,
+            type,
+            image,
+            id: data.id,
+          };
+        }),
+      );
       setPokemon({
         id,
         image: sprites.other['official-artwork'].front_default,
@@ -61,7 +78,7 @@ export const PokemonProvider = ({ children }: IChildrenProps) => {
         description: flavor_text_entries[5].flavor_text,
         abilities: abilities[0].ability.name,
         stats: allStats,
-        evolutions: [],
+        evolutions: [...pokemonEvolutionsWithImage],
         total: allStats.reduce((acc: any, curr: any) => acc + curr.base_stat, 0),
       });
       setIsLoading(false);
