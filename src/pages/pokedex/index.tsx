@@ -10,11 +10,11 @@ import Sidebar from '../../components/sidebar';
 import DrawerMenu from '../../components/drawer';
 import Card from '../../components/card';
 import EmptyList from '../../components/emptyList';
-import { IOnePokemonOfList } from '../../interfaces';
+import { PokemonContext } from '../../context/pokemonContext';
 
 const PokedexPage: React.FC = () => {
+  const { pokedex, setPokedex } = React.useContext(PokemonContext);
   const newID = React.useId();
-  const [pokedex, setPokedex] = React.useState<IOnePokemonOfList[]>([]);
 
   const readSessionStorage = () => {
     const sessionStoragePokedex = sessionStorage.getItem('pokedex');

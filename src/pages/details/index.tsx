@@ -14,10 +14,11 @@ import {
 import { useParams } from 'react-router-dom';
 import Sidebar from '../../components/sidebar';
 import DrawerMenu from '../../components/drawer';
+import Loading from '../../components/loading';
 import { PokemonContext } from '../../context/pokemonContext';
 
 const Details: React.FC = () => {
-  const { getPokemonDetails, pokemon } = React.useContext(PokemonContext);
+  const { getPokemonDetails, pokemon, isLoading } = React.useContext(PokemonContext);
   const [statsOrAbout, setStatsOrAbout] = React.useState('about');
   const tableLines = [
     'HP',
@@ -155,6 +156,7 @@ const Details: React.FC = () => {
       h="100vh"
       w="100%"
     >
+      <Loading loading={isLoading} />
       <Box>
         <Sidebar />
         <DrawerMenu />

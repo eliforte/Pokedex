@@ -12,11 +12,13 @@ import DrawerMenu from '../../components/drawer';
 import Search from '../../components/search';
 import Card from '../../components/card';
 import EmptyList from '../../components/emptyList';
+import Loading from '../../components/loading';
 
 const Home: React.FC = () => {
   const {
     pokemonList,
     isLoading,
+    setIsLoading,
     error,
   } = React.useContext(PokemonContext);
   const newID = React.useId();
@@ -27,7 +29,9 @@ const Home: React.FC = () => {
       window.innerHeight + e.target.documentElement.scrollTop + 1
       > e.target.documentElement.scrollHeight && !isLoading && pokemonList.next
     ) {
+      setIsLoading(true);
       infitiScroll();
+      setIsLoading(false);
     }
   };
 
@@ -38,6 +42,7 @@ const Home: React.FC = () => {
 
   return (
     <Flex h="100vh" flexDirection="column">
+      <Loading loading={isLoading} />
       <Box>
         <Sidebar />
         <DrawerMenu />
