@@ -16,3 +16,8 @@ API developed to simulate the control of a pokédex.
 
 - <code>yarn</code> => Install all dependecies.
 - <code>yarn start</code> => Initialize the application to the production environment.
+
+
+## **Layout**
+
+<img src="https://github.com/eliforte/Pokedex/blob/main/public/Pokedex.png?raw=true" alt="application image" />
