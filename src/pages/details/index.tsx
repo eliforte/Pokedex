@@ -15,11 +15,19 @@ import { useParams } from 'react-router-dom';
 import Sidebar from '../../components/sidebar';
 import DrawerMenu from '../../components/drawer';
 import Loading from '../../components/loading';
+import useAddLeadingZeros from '../../hooks/useAddLeadingZeros';
+import useFirstLetterToUpperCase from '../../hooks/useFirstLetterToUpperCase';
+import useCatchPokemon from '../../hooks/useCatchPokemon';
+import useReleasePokemon from '../../hooks/useReleasePokemon';
 import { PokemonContext } from '../../context/pokemonContext';
 
 const Details: React.FC = () => {
   const { getPokemonDetails, pokemon, isLoading } = React.useContext(PokemonContext);
+  const { id } = useParams();
   const [statsOrAbout, setStatsOrAbout] = React.useState('about');
+  const [textButton, setTextButton] = React.useState('Capturar');
+  const [catched, setCatched] = React.useState(false);
+  const releasePokemon = useReleasePokemon(Number(id));
   const tableLines = [
     'HP',
     'Ataque',
@@ -42,12 +50,6 @@ const Details: React.FC = () => {
     total,
     // evolutions,
   } = pokemon;
-  const { id } = useParams();
-
-  const firstLetterToUpperCase = (str: string) => {
-    const newText = str ? str[0].toLocaleUpperCase() + str.slice(1) : '';
-    return newText;
-  };
 
   const calculateMax = (stat: number, index: number): number => {
     if (index === 0) {
@@ -76,8 +78,6 @@ const Details: React.FC = () => {
     const max = calculateMax(stat, index);
     return Math.floor((stat * 100) / max);
   };
-
-  const addLeadingZeros = (num: number | undefined, totalLength: number) => String(num).padStart(totalLength, '0');
 
   const tableAbout = () => (
     <SimpleGrid
@@ -147,7 +147,33 @@ const Details: React.FC = () => {
     </Grid>
   );
 
+  const pokemonIsCatched = () => {
+    const sessionStoragePokedex = sessionStorage.getItem('pokedex');
+
+    if (sessionStoragePokedex) {
+      const parsedPokedex = JSON.parse(sessionStoragePokedex);
+      const isCatched = parsedPokedex.find((pok: any) => pok.id === Number(id));
+      if (isCatched) {
+        setTextButton('Soltar');
+        setCatched(true);
+      }
+    }
+  };
+
+  const handleClick = () => {
+    if (catched) {
+      releasePokemon();
+      setTextButton('Capturar');
+      setCatched(false);
+    } else {
+      setCatched(true);
+      useCatchPokemon(pokemon);
+      setTextButton('Soltar');
+    }
+  };
+
   React.useEffect(() => {
+    pokemonIsCatched();
     getPokemonDetails(id);
   }, []);
 
@@ -172,13 +198,20 @@ const Details: React.FC = () => {
         <GridItem area="infos" w={['100vw', '90vw']}>
           <Text color="gray.600">
             #
-            {addLeadingZeros(Number(id), 3)}
+            {useAddLeadingZeros(Number(id), 3)}
           </Text>
-          <Heading color={type} mb="20px" as="h1" size="xl">{ firstLetterToUpperCase(name) }</Heading>
+          <Heading color={type} mb="20px" as="h1" size="xl">{ useFirstLetterToUpperCase(name) }</Heading>
           <Text color="gray.600">
             { description }
           </Text>
-          <Button size="lg" backgroundColor="gray.300" m="20px 0">Capturar</Button>
+          <Button
+            size="lg"
+            backgroundColor="gray.300"
+            m="20px 0"
+            onClick={() => handleClick()}
+          >
+            { textButton }
+          </Button>
         </GridItem>
         <GridItem
           mt={['170px', '70px', '200px', '150px', '20px']}
