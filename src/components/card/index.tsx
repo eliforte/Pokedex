@@ -9,6 +9,10 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { IPokemonProps } from '../../interfaces';
+import useFirstLetterToUpperCase from '../../hooks/useFirstLetterToUpperCase';
+import useAddLeadingZeros from '../../hooks/useAddLeadingZeros';
+import useCatchPokemon from '../../hooks/useCatchPokemon';
+import useReleasePokemon from '../../hooks/useReleasePokemon';
 
 const Card: React.FC<IPokemonProps> = (props: IPokemonProps) => {
   const [textButton, setTextButton] = React.useState('Capturar');
@@ -20,31 +24,7 @@ const Card: React.FC<IPokemonProps> = (props: IPokemonProps) => {
     type,
     id,
   } = pokemon;
-
-  const addLeadingZeros = (num: number, totalLength: number) => String(num).padStart(totalLength, '0');
-
-  const firstLetterToUpperCase = (str: string) => {
-    const newText = str ? str[0].toLocaleUpperCase() + str.slice(1) : '';
-    return newText;
-  };
-
-  const catchPokemon = () => {
-    const sessionStoragePokedex = sessionStorage.getItem('pokedex');
-    if (sessionStoragePokedex) {
-      const pokedex = JSON.parse(sessionStoragePokedex);
-      pokedex.push(pokemon);
-      sessionStorage.setItem('pokedex', JSON.stringify(pokedex));
-    }
-  };
-
-  const releasePokemon = () => {
-    const sessionStoragePokedex = sessionStorage.getItem('pokedex');
-    if (sessionStoragePokedex) {
-      const parsedPokedex = JSON.parse(sessionStoragePokedex);
-      const newPokedex = parsedPokedex.filter((pok: any) => pok.id !== id);
-      sessionStorage.setItem('pokedex', JSON.stringify(newPokedex));
-    }
-  };
+  const releasePokemon = useReleasePokemon(id);
 
   const pokemonIsCatched = () => {
     const sessionStoragePokedex = sessionStorage.getItem('pokedex');
@@ -62,8 +42,10 @@ const Card: React.FC<IPokemonProps> = (props: IPokemonProps) => {
     if (catched) {
       releasePokemon();
       setTextButton('Capturar');
+      setCatched(false);
     } else {
-      catchPokemon();
+      setCatched(true);
+      useCatchPokemon(pokemon);
       setTextButton('Soltar');
     }
   };
@@ -86,10 +68,10 @@ const Card: React.FC<IPokemonProps> = (props: IPokemonProps) => {
         <Link to={`/${id}`}>
           <Text color="white">
             #
-            {addLeadingZeros(id, 3)}
+            {useAddLeadingZeros(id, 3)}
           </Text>
           <Heading color="white" as="h3" size={['md', 'md', 'md', 'md', 'lg']}>
-            {firstLetterToUpperCase(name)}
+            {useFirstLetterToUpperCase(name)}
           </Heading>
         </Link>
         <Button onClick={() => handleClick()} bg="white" mt="24px">{ textButton }</Button>
